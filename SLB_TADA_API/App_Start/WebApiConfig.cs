@@ -8,13 +8,6 @@ namespace SLB_TADA_API
 {
     public static class WebApiConfig
     {
-        public static MySqlConnection conns()
-        {
-            string conn_string = "server=localhost;port=3306;database=fea_starhub;username=root;password=135246;";
-            MySqlConnection conns = new MySqlConnection(conn_string);
-            return conns;
-        }
-
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
@@ -24,7 +17,7 @@ namespace SLB_TADA_API
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 
