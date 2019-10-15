@@ -8,87 +8,25 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using SLB_TADA_API.Models;
 using System.Net.Http.Headers;
+using System.Collections;
 
 namespace SLB_TADA_API.Controllers
 {
         public class EmployeeController : ApiController
     {
         // GET <api/employee>
-        public List<Employee> Get()
+        public List<Employee> get()
         {
-            MySqlConnection conn = WebApiConfig.conns();
-            MySqlCommand query = conn.CreateCommand();
-            query.CommandText = "SELECT * FROM Emp_details";
-            var emps = new List<Employee>();
-
-            try
-            {
-                conn.Open();
-            }
-            catch (MySql.Data.MySqlClient.MySqlException ex){}
-
-            MySqlDataReader fetch_query = query.ExecuteReader();
-
-            while (fetch_query.Read())
-            {
-                emps.Add(
-                    new Employee(
-                        fetch_query["eGIN"].ToString(),
-                        fetch_query["eAlias"].ToString(),
-                        fetch_query["eDisplayName"].ToString(),
-                        fetch_query["eMail"].ToString(),
-                        fetch_query["eJobCode"].ToString(),
-                        fetch_query["ePhone"].ToString(),
-                        fetch_query["eGOLD"].ToString(),
-                        fetch_query["eOTC"] != DBNull.Value ? Convert.ToInt32(fetch_query["QuestOTC"]) : 0,
-                        fetch_query["eCountry"].ToString(),
-                        fetch_query["eDept"].ToString(),
-                        fetch_query["eEntity"].ToString(),
-                        fetch_query["eProgramID"].ToString(),
-                        fetch_query["eTADACardNo"].ToString(),
-                        fetch_query["eTADAPIN"].ToString()
-                        )
-                    );
-            }
-            return emps;
+            EmployeePersistence ge = new EmployeePersistence();
+            List<Employee> emp = ge.getEmployees();
+            return emp;
         }
 
-
         // GET <api/employee/{Alias}>
-        public List<Employee> Get(string id)
+        public gEmployee get(string id) 
         {
-            MySqlConnection conn = WebApiConfig.conns();
-            MySqlCommand query = conn.CreateCommand();
-            query.CommandText = "SELECT * FROM Emp_details WHERE eAlias = @als";
-            query.Parameters.AddWithValue("@als",id);
-            var emp = new List<Employee>();
-
-            try
-            {
-                conn.Open();
-            }
-            catch (MySql.Data.MySqlClient.MySqlException ex) { }
-            MySqlDataReader fetch_query = query.ExecuteReader();
-            while (fetch_query.Read()) {
-                emp.Add(
-                    new Employee (
-                        fetch_query["eGIN"].ToString(),
-                        fetch_query["eAlias"].ToString(),
-                        fetch_query["eDisplayName"].ToString(),
-                        fetch_query["eMail"].ToString(),
-                        fetch_query["eJobCode"].ToString(),
-                        fetch_query["ePhone"].ToString(),
-                        fetch_query["eGOLD"].ToString(),
-                        fetch_query["eOTC"] != DBNull.Value ? Convert.ToInt32(fetch_query["QuestOTC"]) : 0,
-                        fetch_query["eCountry"].ToString(),
-                        fetch_query["eDept"].ToString(),
-                        fetch_query["eEntity"].ToString(),
-                        fetch_query["eProgramID"].ToString(),
-                        fetch_query["eTADACardNo"].ToString(),
-                        fetch_query["eTADAPIN"].ToString()
-                        )
-                    );
-            }
+            EmployeePersistence ge = new EmployeePersistence();
+            gEmployee emp = ge.getEmployee(id);
             return emp;
         }
 
@@ -105,6 +43,38 @@ namespace SLB_TADA_API.Controllers
             };
             resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return resp;
+        }
+
+        //DELETE <api/employee> body{"@alias"}
+        public HttpResponseMessage delete([FromBody]string alias) 
+        {
+            EmployeePersistence ep = new EmployeePersistence();
+            bool recordExisted = false;
+            recordExisted = ep.deleteEmployee(alias);
+            HttpResponseMessage response;
+            if (recordExisted) {
+                response = Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            else {
+                response = Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            return response;
+        }
+
+        //PUT <api/employee/{Alias}>
+        public HttpResponseMessage put(string id, [FromBody]addEmployee value) 
+        {
+            EmployeePersistence ep = new EmployeePersistence();
+            bool recordExisted = false;
+            recordExisted = ep.UpdateEmployee(id, value);
+            HttpResponseMessage response;
+            if (recordExisted) {
+                response = Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            else {
+                response = Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            return response;
         }
     }
 }

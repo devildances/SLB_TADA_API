@@ -41,6 +41,25 @@ namespace SLB_TADA_API.Models
         }
 
     }
+
+    public class gEmployee
+    {
+        public string GIN { get; set; }
+        public string Alias { get; set; }
+        public string DisplayName { get; set; }
+        public string UserPrincipalName { get; set; }
+        public string JobCode { get; set; }
+        public string MobilePhone { get; set; }
+        public string GOLDMedalOwner { get; set; }
+        public float QuestOTC { get; set; }
+        public string Country { get; set; }
+        public string Department { get; set; }
+        public string Entity { get; set; }
+        public string ProgramID { get; set; }
+        public string CardNo { get; set; }
+        public string PIN { get; set; }
+    }
+
     public class addEmployee
     {
         public long empID { get; set; }
