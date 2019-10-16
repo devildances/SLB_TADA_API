@@ -14,7 +14,8 @@ namespace SLB_TADA_API.Controllers
 {
         public class EmployeeController : ApiController
     {
-        // GET <api/employee>
+        // GET </employee/getall>
+        [ActionName("GetAll")]
         public List<Employee> get()
         {
             EmployeePersistence ge = new EmployeePersistence();
@@ -22,7 +23,8 @@ namespace SLB_TADA_API.Controllers
             return emp;
         }
 
-        // GET <api/employee/{Alias}>
+        // GET </employee/getemp/{Alias}>
+        [ActionName("GetEmp")]
         public gEmployee get(string id) 
         {
             EmployeePersistence ge = new EmployeePersistence();
@@ -30,7 +32,8 @@ namespace SLB_TADA_API.Controllers
             return emp;
         }
 
-        //POST <api/employee>
+        //POST </employee/add>
+        [ActionName("Add")]
         public HttpResponseMessage Post([FromBody]addEmployee value) 
         {
             EmployeePersistence ep = new EmployeePersistence();
@@ -45,7 +48,8 @@ namespace SLB_TADA_API.Controllers
             return resp;
         }
 
-        //DELETE <api/employee> body{"@alias"}
+        //DELETE </employee/del> body{"@alias"}
+        [ActionName("Del")]
         public HttpResponseMessage delete([FromBody]string alias) 
         {
             EmployeePersistence ep = new EmployeePersistence();
@@ -61,7 +65,8 @@ namespace SLB_TADA_API.Controllers
             return response;
         }
 
-        //PUT <api/employee/{Alias}>
+        //PUT </employee/update/{Alias}>
+        [ActionName("Update")]
         public HttpResponseMessage put(string id, [FromBody]addEmployee value) 
         {
             EmployeePersistence ep = new EmployeePersistence();

@@ -23,7 +23,7 @@ namespace SLB_TADA_API
                 conn.Open();
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
-            { }
+            { throw ex; }
         }
 
         public List<Employee> getEmployees() {

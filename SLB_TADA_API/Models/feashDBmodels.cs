@@ -5,6 +5,7 @@ using System.Web;
 
 namespace SLB_TADA_API.Models
 {
+//===============================Employee models===========================================
     public class Employee
     {
         public string GIN { get; set; }
@@ -98,12 +99,26 @@ namespace SLB_TADA_API.Models
         }
 
     }
-
-    public class Country
+    //=================================Department Models===============================================
+    public class getAllDepts 
     {
-        public long _CountryID { get; set; }
-        public string _Alias { get; set; }
-        public string _CName { get; set; }
+        public string DName { get; set; }
+        public string DEntity { get; set; }
+        public string ProgramID { get; set; }
+
+        public getAllDepts(string _DName, string _DEntity, string _ProgramID) 
+        {
+            this.DName = _DName;
+            this.DEntity = _DEntity;
+            this.ProgramID = _ProgramID;
+        }
+    }
+
+    public class getSingleDept 
+    {
+        public string DName { get; set; }
+        public string DEntity { get; set; }
+        public string ProgramID { get; set; }
     }
 
     public class Department 
@@ -118,6 +133,13 @@ namespace SLB_TADA_API.Models
             this.DName = _DName;
             this.DEntity = _DEntity;
         }
+    }
+//==================================Country Models====================================================
+    public class Country
+    {
+        public long _CountryID { get; set; }
+        public string _Alias { get; set; }
+        public string _CName { get; set; }
     }
 
     public class EmpMedalsSent
