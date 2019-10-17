@@ -16,11 +16,10 @@ namespace SLB_TADA_API.Controllers
     {
         // GET: /Department/getall
         [ActionName("GetAll")]
-        public List<getAllDepts> Get()
+        public ArrayList Get()
         {
             DepartmentPersistence de = new DepartmentPersistence();
-            List<getAllDepts> dept = de.allDepts();
-            return dept;
+            return de.allDepts();
         }
 
         // GET: /Department/getdept/{DepartmentName}
@@ -29,6 +28,9 @@ namespace SLB_TADA_API.Controllers
         {
             DepartmentPersistence de = new DepartmentPersistence();
             List<getAllDepts> dept = de.OneDeptName(id);
+            if (dept == null) {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
             return dept;
         }
 
@@ -37,6 +39,10 @@ namespace SLB_TADA_API.Controllers
         public List<getAllDepts> GetEnt(string id) {
             DepartmentPersistence de = new DepartmentPersistence();
             List<getAllDepts> dept = de.OneEntName(id);
+            if (dept == null)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
             return dept;
         }
 
@@ -46,22 +52,17 @@ namespace SLB_TADA_API.Controllers
         {
             DepartmentPersistence de = new DepartmentPersistence();
             getSingleDept dept = de.oneProgID(id);
+            if (dept == null)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
             return dept;
         }
 //====================================================================================================================
         // POST: /Department
-        public void Post([FromBody]string value)
-        {
-        }
 
         // PUT: /Department/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
         // DELETE: /Department/5
-        public void Delete(int id)
-        {
-        }
     }
 }
